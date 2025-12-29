@@ -1,3 +1,6 @@
+(* test/test_memory.ml
+   Unit tests for memory subsystem *)
+
 open Rv32emu
 
 let test_count = ref 0
@@ -56,4 +59,14 @@ let test_load_bytes () =
   test "load_bytes byte 1" (Memory.load_byte mem 0x11l = 0x02);
   test "load_bytes byte 2" (Memory.load_byte mem 0x12l = 0x03);
   test "load_bytes byte 3" (Memory.load_byte mem 0x13l = 0x04)
+;;
+
+let () =
+  print_endline "\n=== Memory Module Tests ===\n";
+  test_byte_ops ();
+  test_hword_ops ();
+  test_word_ops ();
+  test_load_bytes ();
+  Printf.printf "\n=== Results: %d/%d passed ===\n" !pass_count !test_count;
+  if !pass_count < !test_count then exit 1
 ;;
