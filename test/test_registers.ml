@@ -1,3 +1,6 @@
+(* test/test_registers.ml
+   Unit tests for register file *)
+
 open Rv32emu
 
 let test_count = ref 0
@@ -43,4 +46,13 @@ let test_abi_names () =
   test "x2 is sp" (Registers.abi_name 2 = "sp");
   test "x10 is a0" (Registers.abi_name 10 = "a0");
   test "x31 is t6" (Registers.abi_name 31 = "t6")
+;;
+
+let () =
+  print_endline "\n=== Registers Module Tests ===\n";
+  test_x0_hardwired ();
+  test_read_write ();
+  test_abi_names ();
+  Printf.printf "\n=== Results: %d/%d passed ===\n" !pass_count !test_count;
+  if !pass_count < !test_count then exit 1
 ;;
