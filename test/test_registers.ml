@@ -35,3 +35,12 @@ let test_read_write () =
   Registers.write rf 1 0x11111111l;
   test "x1 reads new value after overwrite" (Registers.read rf 1 = 0x11111111l)
 ;;
+
+let test_abi_names () =
+  print_endline "Testing ABI names:";
+  test "x0 is zero" (Registers.abi_name 0 = "zero");
+  test "x1 is ra" (Registers.abi_name 1 = "ra");
+  test "x2 is sp" (Registers.abi_name 2 = "sp");
+  test "x10 is a0" (Registers.abi_name 10 = "a0");
+  test "x31 is t6" (Registers.abi_name 31 = "t6")
+;;
