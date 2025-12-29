@@ -22,3 +22,14 @@ let test_byte_ops () =
   Memory.store_byte mem 0x01l 0x1FF;
   test "store_byte masks to 8 bits" (Memory.load_byte mem 0x01l = 0xFF)
 ;;
+
+let test_hword_ops () =
+  print_endline "Testing half-word operations (little-endian):";
+  let mem = Memory.create ~size:1024 in
+  (* Store half-word 0x1234 at address 0 *)
+  Memory.store_hword mem 0x00l 0x1234;
+  test "load_hword reads stored value" (Memory.load_hword mem 0x00l = 0x1234);
+  (* Verify little-endian: byte 0 = 0x34, byte 1 = 0x12 *)
+  test "little-endian byte 0" (Memory.load_byte mem 0x00l = 0x34);
+  test "little-endian byte 1" (Memory.load_byte mem 0x01l = 0x12)
+;;
