@@ -1,4 +1,4 @@
 (library
  (name rv32emu)
  (public_name rv32emu)
- (modules types bits registers rv32emu))
+ (modules types bits registers memory rv32emu))
