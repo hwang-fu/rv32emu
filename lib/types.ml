@@ -2,6 +2,10 @@
     Stored as int for convenience, only lower 8 bits are meaningful. *)
 type byte = int
 
+(** Half-word (16 bits) - used for LH/SH instructions.
+    Stored as int, only lower 16 bits are meaningful. *)
+type hword = int
+
 (** 32-bit word - the fundamental unit in RV32.
     We use int32 because OCaml's int is 63-bit on 64-bit systems,
     and we need exact 32-bit wraparound semantics for arithmetic. *)
