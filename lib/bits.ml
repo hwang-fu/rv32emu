@@ -1,20 +1,19 @@
+(* lib/bits.ml
+   Bit manipulation utilities for instruction decoding *)
+
 (** Set a specific bit to 1. *)
-let set_bit word position = Int32.logor word (Int32.shift_left 1l position)
+let set_bit w pos = Int32.logor w (Int32.shift_left 1l pos)
 
 (** Clear a specific bit to 0. *)
-let clr_bit word position =
-  Int32.logand word (Int32.lognot (Int32.shift_left 1l position))
-;;
+let clr_bit w pos = Int32.logand w (Int32.lognot (Int32.shift_left 1l pos))
 
 (** Test if a specific bit is set (1).
     Bit positions are 0-indexed from the right. *)
-let is_bit_set word position =
-  Int32.logand (Int32.shift_right_logical word position) 1l = 1l
-;;
+let is_bit_set w pos = Int32.logand (Int32.shift_right_logical w pos) 1l = 1l
 
 (** Test if a specific bit is cleared (0).
     Bit positions are 0-indexed from the right. *)
-let is_bit_clr word position = not (is_bit_set word position)
+let is_bit_clr w pos = not (is_bit_set w pos)
 
 (** Zero-extend: keep only the lower [bits], clear upper bits to zero.
     Examples:
