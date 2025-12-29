@@ -51,3 +51,12 @@ let load_word memory address =
        (Int32.shift_left (Int32.of_int b2) 16)
        (Int32.shift_left (Int32.of_int b3) 24))
 ;;
+
+(** Store word (32 bits, little-endian) *)
+let store_word memory address w =
+  let word = Int32.to_int w in
+  store_byte memory address (word land 0xFF);
+  store_byte memory (Int32.add address 1l) ((word lsr 8) land 0xFF);
+  store_byte memory (Int32.add address 2l) ((word lsr 16) land 0xFF);
+  store_byte memory (Int32.add address 3l) ((word lsr 24) land 0xFF)
+;;
