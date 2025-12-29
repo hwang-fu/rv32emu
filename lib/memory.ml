@@ -19,3 +19,9 @@ let load_byte memory address =
   is_within_bounds memory address;
   Char.code (Bytes.get memory.data (Int32.to_int address))
 ;;
+
+(** Store a single byte *)
+let store_byte memory address b =
+  is_within_bounds memory address;
+  Bytes.set memory.data (Int32.to_int address) (Char.chr (b land 0xFF))
+;;
