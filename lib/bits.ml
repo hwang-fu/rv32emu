@@ -37,3 +37,16 @@ let sign_extend value ~bits =
   let shift = 32 - bits in
   Int32.shift_right (Int32.shift_left value shift) shift
 ;;
+
+(** Extract bits [hi:lo] from a word (inclusive).
+    Example: extract_bits 0xDEADBEEFl ~hi:15 ~lo:8 returns 0xBEl
+
+    How it works:
+      1. Shift right by 'lo' to move target bits to position 0
+      2. Create a mask of (hi - lo + 1) ones
+      3. AND with mask to keep only the bits we want *)
+let extract_bits w ~hi ~lo =
+  let width = hi - lo + 1 in
+  let mask = Int32.pred (Int32.shift_left 1l width) in
+  Int32.logand (Int32.shift_right_logical w lo) mask
+;;
