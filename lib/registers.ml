@@ -5,6 +5,10 @@ type t = { regs : int32 array }
 (** Create a new register file with all registers initialized to 0. *)
 let create () = { regs = Array.make 32 0l }
 
+(** Read a register value.
+    x0 always returns 0 regardless of what was written. *)
+let read register_file idx = if idx = 0 then 0l else register_file.regs.(idx)
+
 (** ABI register names for pretty printing. *)
 let abi_name idx =
   match idx with
