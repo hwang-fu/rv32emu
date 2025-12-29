@@ -1,0 +1,4 @@
+(executable
+ (name main)
+ (public_name rv32emu)
+ (libraries rv32emu))
