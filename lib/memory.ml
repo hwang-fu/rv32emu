@@ -25,3 +25,10 @@ let store_byte memory address b =
   is_within_bounds memory address;
   Bytes.set memory.data (Int32.to_int address) (Char.chr (b land 0xFF))
 ;;
+
+(** Load half-word (16 bits, little-endian, unsigned) *)
+let load_hword memory address =
+  let bl = load_byte memory address in
+  let bh = load_byte memory (Int32.add address 1l) in
+  bl lor (bh lsl 8)
+;;
