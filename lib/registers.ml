@@ -6,8 +6,12 @@ type t = { regs : int32 array }
 let create () = { regs = Array.make 32 0l }
 
 (** Read a register value.
-    x0 always returns 0 regardless of what was written. *)
+    x0 always returns 0 regardless of what was written (RISC-V standard). *)
 let read register_file idx = if idx = 0 then 0l else register_file.regs.(idx)
+
+(** Write a value to a register.
+    Writes to x0 are silently ignored (RISC-V standard). *)
+let write register_file idx value = if idx <> 0 then register_file.regs.(idx) <- value
 
 (** ABI register names for pretty printing. *)
 let abi_name idx =
@@ -45,4 +49,11 @@ let abi_name idx =
   | 30 -> "t5"
   | 31 -> "t6"
   | _ -> "???"
+;;
+
+(** Dump all registers to stdout for debugging. *)
+let dump register_file =
+  for i = 0 to 31 do
+    Printf.printf "x%02d (%4s) = 0x%08lx\n" i (abi_name i) (read register_file i)
+  done
 ;;
