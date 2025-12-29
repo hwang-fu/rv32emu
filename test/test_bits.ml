@@ -45,3 +45,13 @@ let test_sign_extend () =
   (* 16-bit negative *)
   test "sign_extend 0x8000 from 16 bits" (Bits.sign_extend 0x8000l ~bits:16 = 0xFFFF8000l)
 ;;
+
+(** Test zero_extend *)
+let test_zero_extend () =
+  print_endline "Testing zero_extend:";
+  test "zero_extend 0xFF from 8 bits" (Bits.zero_extend 0xFFl ~bits:8 = 0xFFl);
+  test "zero_extend 0xFFFFFFFF from 8 bits" (Bits.zero_extend 0xFFFFFFFFl ~bits:8 = 0xFFl);
+  test
+    "zero_extend 0xFFFFFFFF from 16 bits"
+    (Bits.zero_extend 0xFFFFFFFFl ~bits:16 = 0xFFFFl)
+;;
