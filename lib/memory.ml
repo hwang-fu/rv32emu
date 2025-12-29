@@ -9,8 +9,8 @@ let create ~size = { data = Bytes.make size '\x00'; size }
 
 (** Check if address is within bounds *)
 let is_within_bounds memory address =
-  let addr_start = Int32.to_int address in
-  if addr_start < 0 || addr_start >= memory.size
+  let addr = Int32.to_int address in
+  if addr < 0 || addr >= memory.size
   then failwith (Printf.sprintf "Memory access out of bounds: 0x%08lx" address)
 ;;
 
@@ -59,4 +59,10 @@ let store_word memory address w =
   store_byte memory (Int32.add address 1l) ((word lsr 8) land 0xFF);
   store_byte memory (Int32.add address 2l) ((word lsr 16) land 0xFF);
   store_byte memory (Int32.add address 3l) ((word lsr 24) land 0xFF)
+;;
+
+(** Load raw bytes into memory starting at address *)
+let load_bytes memory address data =
+  let addr = Int32.to_int address in
+  Bytes.blit data 0 memory.data addr (Bytes.length data)
 ;;
