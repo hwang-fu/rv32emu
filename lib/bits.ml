@@ -15,3 +15,10 @@ let is_bit_set word position =
 (** Test if a specific bit is cleared (0).
     Bit positions are 0-indexed from the right. *)
 let is_bit_clr word position = not (is_bit_set word position)
+
+(** Zero-extend a value (just mask off upper bits).
+    Example: zero_extend 0xFFFFFFFFl ~bits:8 returns 0xFFl *)
+let zero_extend word ~bits =
+  let mask = Int32.pred (Int32.shift_left 1l bits) in
+  Int32.logand word mask
+;;
