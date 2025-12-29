@@ -11,3 +11,7 @@ let clr_bit word position =
 let is_bit_set word position =
   Int32.logand (Int32.shift_right_logical word position) 1l = 1l
 ;;
+
+(** Test if a specific bit is cleared (0).
+    Bit positions are 0-indexed from the right. *)
+let is_bit_clr word position = not (is_bit_set word position)
