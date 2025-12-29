@@ -44,42 +44,35 @@ OCaml's type system and pattern matching make it exceptionally well-suited for i
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        rv32emu                              │
-├─────────────────────────────────────────────────────────────┤
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐        │
-│  │  Types  │  │  Bits   │  │Registers│  │ Memory  │        │
-│  │         │  │         │  │         │  │         │        │
-│  │ word    │  │ extract │  │ x0-x31  │  │ load/   │        │
-│  │ address │  │ sign_ext│  │ (x0=0)  │  │ store   │        │
-│  │ pc      │  │ zero_ext│  │         │  │ (LE)    │        │
-│  └────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘        │
-│       │            │            │            │              │
-│       └────────────┴─────┬──────┴────────────┘              │
-│                          │                                  │
-│                    ┌─────┴─────┐                            │
-│                    │  Decode   │  ← In Development          │
-│                    │           │                            │
-│                    │ R/I/S/B/  │                            │
-│                    │ U/J-type  │                            │
-│                    └─────┬─────┘                            │
-│                          │                                  │
-│                    ┌─────┴─────┐                            │
-│                    │  Execute  │  ← Planned                 │
-│                    │           │                            │
-│                    │ ALU/Load/ │                            │
-│                    │ Store/Br  │                            │
-│                    └─────┬─────┘                            │
-│                          │                                  │
-│                    ┌─────┴─────┐                            │
-│                    │    CPU    │  ← Planned                 │
-│                    │           │                            │
-│                    │  Fetch →  │                            │
-│                    │  Decode → │                            │
-│                    │  Execute  │                            │
-│                    └───────────┘                            │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph Foundation ["Foundation Layer ✓"]
+        Types["<b>Types</b><br/>word, address, pc"]
+        Bits["<b>Bits</b><br/>extract, sign_ext, zero_ext"]
+        Registers["<b>Registers</b><br/>x0-x31 (x0=0)"]
+        Memory["<b>Memory</b><br/>load/store (little-endian)"]
+    end
+
+    subgraph Core ["Core Pipeline"]
+        Decode["<b>Decode</b><br/>R/I/S/B/U/J-type<br/><i>In Development</i>"]
+        Execute["<b>Execute</b><br/>ALU, Load/Store, Branch<br/><i>Planned</i>"]
+        CPU["<b>CPU</b><br/>Fetch → Decode → Execute<br/><i>Planned</i>"]
+    end
+
+    Types --> Decode
+    Bits --> Decode
+    Registers --> Execute
+    Memory --> Execute
+    Decode --> Execute
+    Execute --> CPU
+
+    style Types fill:#22c55e,color:#fff
+    style Bits fill:#22c55e,color:#fff
+    style Registers fill:#22c55e,color:#fff
+    style Memory fill:#22c55e,color:#fff
+    style Decode fill:#eab308,color:#000
+    style Execute fill:#6b7280,color:#fff
+    style CPU fill:#6b7280,color:#fff
 ```
 
 ## Project Structure
