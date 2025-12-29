@@ -55,3 +55,13 @@ let test_zero_extend () =
     "zero_extend 0xFFFFFFFF from 16 bits"
     (Bits.zero_extend 0xFFFFFFFFl ~bits:16 = 0xFFFFl)
 ;;
+
+(** Test bit operations *)
+let test_bit_ops () =
+  print_endline "Testing bit operations:";
+  test "is_bit_set 0x01 bit 0" (Bits.is_bit_set 0x01l 0 = true);
+  test "is_bit_set 0x01 bit 1" (Bits.is_bit_set 0x01l 1 = false);
+  test "is_bit_set 0x80000000 bit 31" (Bits.is_bit_set 0x80000000l 31 = true);
+  test "set_bit 0x00 bit 3" (Bits.set_bit 0x00l 3 = 0x08l);
+  test "clr_bit 0xFF bit 0" (Bits.clr_bit 0xFFl 0 = 0xFEl)
+;;
