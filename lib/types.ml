@@ -1,3 +1,6 @@
+(* lib/types.ml
+   Basic type definitions for the RV32I emulator *)
+
 (** Byte (8 bits) - used for memory operations.
     Stored as int for convenience, only lower 8 bits are meaningful. *)
 type byte = int

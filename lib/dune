@@ -1,3 +1,4 @@
 (library
  (name rv32emu)
- (public_name rv32emu))
+ (public_name rv32emu)
+ (modules types rv32emu))
