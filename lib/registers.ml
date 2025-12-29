@@ -1,3 +1,6 @@
+(* lib/reg.ml
+   RISC-V register file: 32 integer registers (x0-x31) *)
+
 (** The register file type.
     Contains an array of 32 registers, each 32 bits wide. *)
 type t = { regs : int32 array }
