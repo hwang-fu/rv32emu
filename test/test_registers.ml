@@ -21,3 +21,17 @@ let test_x0_hardwired () =
   Registers.write rf 0 0x12345678l;
   test "x0 still reads 0 after write" (Registers.read rf 0 = 0l)
 ;;
+
+let test_read_write () =
+  print_endline "Testing read/write:";
+  let rf = Registers.create () in
+  (* Write and read back *)
+  Registers.write rf 1 0xDEADBEEFl;
+  test "x1 reads written value" (Registers.read rf 1 = 0xDEADBEEFl);
+  (* Write to another register *)
+  Registers.write rf 31 0xCAFEBABEl;
+  test "x31 reads written value" (Registers.read rf 31 = 0xCAFEBABEl);
+  (* Overwrite *)
+  Registers.write rf 1 0x11111111l;
+  test "x1 reads new value after overwrite" (Registers.read rf 1 = 0x11111111l)
+;;
