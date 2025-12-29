@@ -46,3 +46,14 @@ let test_word_ops () =
   test "little-endian byte 2" (Memory.load_byte mem 0x02l = 0xAD);
   test "little-endian byte 3 (MSB)" (Memory.load_byte mem 0x03l = 0xDE)
 ;;
+
+let test_load_bytes () =
+  print_endline "Testing load_bytes:";
+  let mem = Memory.create ~size:1024 in
+  let data = Bytes.of_string "\x01\x02\x03\x04" in
+  Memory.load_bytes mem 0x10l data;
+  test "load_bytes byte 0" (Memory.load_byte mem 0x10l = 0x01);
+  test "load_bytes byte 1" (Memory.load_byte mem 0x11l = 0x02);
+  test "load_bytes byte 2" (Memory.load_byte mem 0x12l = 0x03);
+  test "load_bytes byte 3" (Memory.load_byte mem 0x13l = 0x04)
+;;
