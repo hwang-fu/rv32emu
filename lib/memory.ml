@@ -32,3 +32,9 @@ let load_hword memory address =
   let bh = load_byte memory (Int32.add address 1l) in
   bl lor (bh lsl 8)
 ;;
+
+(** Store half-word (16 bits, little-endian) *)
+let store_hword memory address hw =
+  store_byte memory address (hw land 0xFF);
+  store_byte memory (Int32.add address 1l) ((hw lsr 8) land 0xFF)
+;;
