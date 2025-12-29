@@ -4,4 +4,7 @@
 type word = int32
 
 (** Memory address - same as word, but semantically distinct *)
-type addr = int32
+type address = int32
+
+(** Program counter *)
+type pc = int32
