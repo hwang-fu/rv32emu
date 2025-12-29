@@ -33,3 +33,16 @@ let test_hword_ops () =
   test "little-endian byte 0" (Memory.load_byte mem 0x00l = 0x34);
   test "little-endian byte 1" (Memory.load_byte mem 0x01l = 0x12)
 ;;
+
+let test_word_ops () =
+  print_endline "Testing word operations (little-endian):";
+  let mem = Memory.create ~size:1024 in
+  (* Store word 0xDEADBEEF at address 0 *)
+  Memory.store_word mem 0x00l 0xDEADBEEFl;
+  test "load_word reads stored value" (Memory.load_word mem 0x00l = 0xDEADBEEFl);
+  (* Verify little-endian byte order *)
+  test "little-endian byte 0 (LSB)" (Memory.load_byte mem 0x00l = 0xEF);
+  test "little-endian byte 1" (Memory.load_byte mem 0x01l = 0xBE);
+  test "little-endian byte 2" (Memory.load_byte mem 0x02l = 0xAD);
+  test "little-endian byte 3 (MSB)" (Memory.load_byte mem 0x03l = 0xDE)
+;;
