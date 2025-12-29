@@ -38,3 +38,16 @@ let store_hword memory address hw =
   store_byte memory address (hw land 0xFF);
   store_byte memory (Int32.add address 1l) ((hw lsr 8) land 0xFF)
 ;;
+
+(** Load word (32 bits, little-endian) *)
+let load_word memory address =
+  let b0 = load_byte memory address in
+  let b1 = load_byte memory (Int32.add address 1l) in
+  let b2 = load_byte memory (Int32.add address 2l) in
+  let b3 = load_byte memory (Int32.add address 3l) in
+  Int32.logor
+    (Int32.logor (Int32.of_int b0) (Int32.shift_left (Int32.of_int b1) 8))
+    (Int32.logor
+       (Int32.shift_left (Int32.of_int b2) 16)
+       (Int32.shift_left (Int32.of_int b3) 24))
+;;
