@@ -2,3 +2,6 @@
       We use int32 because OCaml's int is 63-bit on 64-bit systems,
       and we need exact 32-bit wraparound semantics for arithmetic. *)
 type word = int32
+
+(** Memory address - same as word, but semantically distinct *)
+type addr = int32
