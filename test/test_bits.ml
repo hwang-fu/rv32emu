@@ -1,3 +1,6 @@
+(* test/test_bits.ml
+   Unit tests for bit manipulation utilities *)
+
 open Rv32emu
 
 let test_count = ref 0
@@ -64,4 +67,14 @@ let test_bit_ops () =
   test "is_bit_set 0x80000000 bit 31" (Bits.is_bit_set 0x80000000l 31 = true);
   test "set_bit 0x00 bit 3" (Bits.set_bit 0x00l 3 = 0x08l);
   test "clr_bit 0xFF bit 0" (Bits.clr_bit 0xFFl 0 = 0xFEl)
+;;
+
+let () =
+  print_endline "\n=== Bits Module Tests ===\n";
+  test_extract_bits ();
+  test_sign_extend ();
+  test_zero_extend ();
+  test_bit_ops ();
+  Printf.printf "\n=== Results: %d/%d passed ===\n" !pass_count !test_count;
+  if !pass_count < !test_count then exit 1
 ;;
