@@ -2,6 +2,9 @@
     Contains an array of 32 registers, each 32 bits wide. *)
 type t = { regs : int32 array }
 
+(** Create a new register file with all registers initialized to 0. *)
+let create () = { regs = Array.make 32 0l }
+
 (** ABI register names for pretty printing. *)
 let abi_name idx =
   match idx with
