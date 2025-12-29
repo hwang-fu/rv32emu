@@ -1,5 +1,9 @@
+(** The register file type.
+    Contains an array of 32 registers, each 32 bits wide. *)
+type t = { regs : int32 array }
+
 (** ABI register names for pretty printing. *)
-let abi_name (idx : int) : string =
+let abi_name idx =
   match idx with
   | 0 -> "zero"
   | 1 -> "ra"
