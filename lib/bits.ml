@@ -16,9 +16,24 @@ let is_bit_set word position =
     Bit positions are 0-indexed from the right. *)
 let is_bit_clr word position = not (is_bit_set word position)
 
-(** Zero-extend a value (just mask off upper bits).
-    Example: zero_extend 0xFFFFFFFFl ~bits:8 returns 0xFFl *)
-let zero_extend word ~bits =
+(** Zero-extend: keep only the lower [bits], clear upper bits to zero.
+    Examples:
+    - zero_extend 0xFFFF_FFFFl ~bits:8  -> 0x0000_00FFl
+    - zero_extend 0xABCD_1234l ~bits:16 -> 0x0000_1234l
+    l is just a symbol indicating this is an `int32` not an `int` *)
+let zero_extend value ~bits =
   let mask = Int32.pred (Int32.shift_left 1l bits) in
-  Int32.logand word mask
+  Int32.logand value mask
+;;
+
+(** Sign-extend: treat the lower [bits] as a signed value,
+    extending the sign bit to fill upper bits.
+    Examples:
+    - sign_extend 0x0000_007Fl ~bits:8  -> 0x0000_007Fl  (positive, upper bits filled with 0)
+    - sign_extend 0x0000_0080l ~bits:8  -> 0xFFFF_FF80l  (negative, upper bits filled with 1)
+    - sign_extend 0x0000_7FFFl ~bits:16 -> 0x0000_7FFFl  (positive)
+    - sign_extend 0x0000_8000l ~bits:16 -> 0xFFFF_8000l  (negative) *)
+let sign_extend value ~bits =
+  let shift = 32 - bits in
+  Int32.shift_right (Int32.shift_left value shift) shift
 ;;
